@@ -10,7 +10,7 @@ Calculation of shrunken dispersion estimates via a 2-parameter empirical bayes m
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-EstimateDEBDisp(y, m, groups, neff = NULL, S = NULL)
+EstimateDEBDisp(y,m,groups=NULL,neff=NULL,S=NULL,optim.method=c("BFGS","Nelder-Mead"))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -23,7 +23,7 @@ numeric matrix of total counts: inclusion + exclusion.
 %%     ~~Describe \code{m} here~~
 }
   \item{groups}{
-vector or factor giving the experimental group/condition for each sample/library.
+vector or factor giving the experimental group/condition for each sample/library. Default NULL.
 %%     ~~Describe \code{groups} here~~
 }
   \item{neff}{
@@ -33,6 +33,10 @@ numeric vector of length equal to the number of rows of "y" where each value is 
   \item{S}{
 numeric vector of length equal to the number of rows of "y" where each value is the random variable for each event whose distribution across exons is gamma. Default is NULL in which case the vector is calculated internally.
 %%     ~~Describe \code{S} here~~
+}
+  \item{optim.method}{
+character string determining which optimization routine to use for estimating the parameters of the prior distribution. Default is "BFGS".
+%%     ~~Describe \code{optim.method} here~~
 }
 }
 \details{

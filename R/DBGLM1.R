@@ -37,7 +37,9 @@ function (y, m, groups, shrink.method = c("WEB","DEB"), contrast = c(1,2) , fdr.
     }
    else
     {
-       rows.kp <- rowSums(y)!=rowSums(m) & rowSums(m)!=0
+       mm = .DBSplitIntoGroups( m , groups )[ as.character(unique(groups)) ]
+       mm.sums <- sapply(mm,FUN=function(mtx) apply(mtx,1,FUN=function(vec) sum(vec!=0)>1))
+       rows.kp <- rowSums(y)!=rowSums(m) & rowSums(m)!=0 & rowSums(y)!=0 & apply(mm.sums,1,all)
        y <- y[rows.kp,]
        m <- m[rows.kp,]
 
@@ -75,7 +77,7 @@ function (y, m, groups, shrink.method = c("WEB","DEB"), contrast = c(1,2) , fdr.
        groups <- as.factor(groups)
        cols1 <- groups == unique(groups)[1]
        cols2 <- groups == unique(groups)[2]
-       rows.kp2 <- rowSums(y)!=rowSums(m) & rowSums(m)!=0 & apply(m[,cols1,drop=FALSE],1,FUN=function(vec) sum(vec!=0)>1) & apply(m[,cols2,drop=FALSE],1,FUN=function(vec) sum(vec!=0)>1)
+       rows.kp2 <- rowSums(y)!=rowSums(m) & rowSums(m)!=0 & rowSums(y)!=0 & apply(m[,cols1,drop=FALSE],1,FUN=function(vec) sum(vec!=0)>1) & apply(m[,cols2,drop=FALSE],1,FUN=function(vec) sum(vec!=0)>1)
        y <- y[rows.kp2,]
        m <- m[rows.kp2,]
        K = length(unique(groups))
